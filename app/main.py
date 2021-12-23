@@ -3,6 +3,7 @@ from cassandra.cqlengine.management import sync_table
 
 from . import db
 from .users.models import User
+from .users.views import router as user_router
 
 app = FastAPI()
 DB_SESSION = None
@@ -17,3 +18,6 @@ def on_startup():
 @app.get("/")
 def homepage():
     return {"hello" : "Wprld" }
+
+
+app.include_router(user_router)
