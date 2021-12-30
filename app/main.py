@@ -10,7 +10,10 @@ from .users.views import router as user_router
 
 
 
+
 app = FastAPI()
+
+from .handlers import * # noqa
 
 DB_SESSION = None
 
