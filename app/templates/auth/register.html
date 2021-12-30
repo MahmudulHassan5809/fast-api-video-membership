@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }} || {{title}}
+{% endblock title %}
+
+
+{% block content %}
+    <h1>{{title}}</h1>
+
+    {% include 'partials/form_errors.html' %}
+
+    <form action="" method="POST">
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="your@email.com">
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password">
+        </div>
+
+        <div>
+            <label for="password">Confirm Password</label>
+            <input type="password" name="password_confirm" placeholder="Confirm password">
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+
+{% endblock content %}
