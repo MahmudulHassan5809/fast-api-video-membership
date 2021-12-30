@@ -4,6 +4,7 @@ from starlette.requests import Request
 from starlette.responses import HTMLResponse
 from starlette.templating import Jinja2Templates
 from .models import User
+from .decorators import login_required
 from .scheams import UserLoginSchema, UserResponse, UserSignupSchema
 from typing import List, Optional
 
@@ -51,12 +52,13 @@ def login(request: Request,
     context = {
         "data": data,
         "errors": errors,
+        "title" : 'Login'
     }
 
     if len(errors) > 0:
         return render(request, "auth/login.html", context, status_code=400)
     if "http://127.0.0.1" not in next:
-        next = '/'
+        next = '/users/profile/'
     return redirect(next, cookies=data)
 
 
@@ -95,4 +97,16 @@ def register(request: Request,
     if len(errors) > 0:
         return render(request, "auth/register.html", context, status_code=400)
     return redirect("/users/login")
+
+
+
+@router.get('/profile/', response_class=HTMLResponse)
+@login_required
+def login(request: Request):
+    context = {
+        "request" : request,
+        "title" : 'Profile'
+    }
+    return render(request, "account/profile.html", context, status_code=200)
+
     

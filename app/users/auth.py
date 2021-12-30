@@ -12,8 +12,9 @@ def authenticate(email, password):
         user_obj = User.objects.get(email=email)
     except Exception as e:
         user_obj = None
-    if not user_obj.verify_password(password):
-        return None
+    if user_obj:
+        if not user_obj.verify_password(password):
+            return None
     return user_obj
 
 def login(user_obj, expires=settings.session_duration):
