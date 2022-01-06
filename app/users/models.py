@@ -42,6 +42,20 @@ class User(Model):
         obj.set_password(password)
         obj.save()
         return obj
+    
+    @staticmethod
+    def check_exists(user_id):
+        q = User.objects.filter(user_id=user_id).allow_filtering()
+        return q.count() != 0
+    
+    @staticmethod
+    def by_user_id(user_id=None):
+        if user_id is None:
+            return None
+        q = User.objects.filter(user_id=user_id).allow_filtering()
+        if q.count() != 1:
+            return None
+        return q.first()
 
     def __str__(self):
         return self.__repr__()
