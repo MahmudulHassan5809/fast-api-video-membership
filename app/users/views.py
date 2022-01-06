@@ -7,10 +7,6 @@ from .models import User
 from .decorators import login_required
 from .scheams import UserLoginSchema, UserResponse, UserSignupSchema
 from typing import List, Optional
-
-from starlette.authentication import requires
-
-from ..dependencies import get_templates
 from .. import utils
 from ..shortcuts import redirect, render
 

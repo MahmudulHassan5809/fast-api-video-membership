@@ -24,6 +24,10 @@ class Video(Model):
     def __repr__(self):
         return f"Video(title={self.title}, host_id={self.host_id}, host_service={self.host_service})"
 
+    
+    def as_data(self):
+        return {f"{self.host_service}_id": self.host_id, "path": self.path, "title": self.title}
+    
     @staticmethod
     def add_video(url, user_id=None, **kwargs):
         # extract video_id from url

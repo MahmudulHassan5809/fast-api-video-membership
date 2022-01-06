@@ -10,6 +10,7 @@ from . import db
 from .users.models import User
 from .videos.models import Video
 from .users.views import router as user_router
+from .videos.views import router as video_router
 
 
 
@@ -17,7 +18,7 @@ from .users.views import router as user_router
 
 app = FastAPI()
 
-app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend)
+app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())
 
 from .handlers import * # noqa
 
@@ -34,3 +35,4 @@ def on_startup():
 
 
 app.include_router(user_router)
+app.include_router(video_router)
