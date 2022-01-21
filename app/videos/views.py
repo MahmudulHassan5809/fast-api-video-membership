@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 
-from app.shortcuts import  render
+from app.users.decorators import login_required
+from app.shortcuts import render
 
 
 router = APIRouter(
@@ -9,10 +10,16 @@ router = APIRouter(
     tags=['Videos']
 )
 
-@router.get("/")
+
+@router.get("/create")
+@login_required
 def video_list_view(request: Request, response_class=HTMLResponse):
     return render(request, "videos/list.html", {})
 
+
+@router.get("/")
+def video_list_view(request: Request, response_class=HTMLResponse):
+    return render(request, "videos/list.html", {})
 
 
 @router.get("/")
