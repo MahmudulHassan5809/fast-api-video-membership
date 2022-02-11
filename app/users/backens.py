@@ -1,4 +1,3 @@
-
 from starlette.authentication import (
     AuthenticationBackend,
     SimpleUser,
@@ -7,6 +6,7 @@ from starlette.authentication import (
 )
 
 from . import auth
+
 
 class JWTCookieBackend(AuthenticationBackend):
     async def authenticate(self, request):

@@ -6,16 +6,17 @@ from .models import User
 
 settings = config.get_settings()
 
+
 def authenticate(email, password):
     # step 1
     try:
         user_obj = User.objects.get(email=email)
     except Exception as e:
         user_obj = None
-    if user_obj:
-        if not user_obj.verify_password(password):
-            return None
+    if not user_obj.verify_password(password):
+        return None
     return user_obj
+
 
 def login(user_obj, expires=settings.session_duration):
     # step 2
@@ -31,7 +32,8 @@ def verify_user_id(token):
     # step 3
     data = {}
     try:
-        data = jwt.decode(token, settings.secret_key, algorithms=[settings.jwt_algorithm])
+        data = jwt.decode(token, settings.secret_key,
+                          algorithms=[settings.jwt_algorithm])
     except ExpiredSignatureError as e:
         print(e, "log out user")
     except:
@@ -40,4 +42,4 @@ def verify_user_id(token):
         return None
     # if 'user_id' not in data.keys():
     #     return None
-    return 
+    return data

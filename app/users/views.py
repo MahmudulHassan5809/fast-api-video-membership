@@ -23,15 +23,6 @@ def get_user_list():
     return list(qs)
 
 
-@router.get('/profile/', response_model=List[UserResponse])
-def get_user_list(request: Request):
-    context = {
-        "request": request,
-        "title": 'Profile'
-    }
-    return render(request, "account/profile.html", context, status_code=200)
-
-
 @router.get('/login/', response_class=HTMLResponse)
 def login(request: Request, ):
     context = {
@@ -65,6 +56,7 @@ def login(request: Request,
         return render(request, "auth/login.html", context, status_code=400)
     if "http://127.0.0.1" not in next:
         next = '/users/profile/'
+    print(next)
     return redirect(next, cookies=data)
 
 
@@ -104,9 +96,9 @@ def register(request: Request,
 
 @router.get('/profile/', response_class=HTMLResponse)
 @login_required
-def login(request: Request):
+def profile(request: Request):
+    print(request.user.is_authenticated, '---------')
     context = {
-        "request": request,
         "title": 'Profile'
     }
     return render(request, "account/profile.html", context, status_code=200)

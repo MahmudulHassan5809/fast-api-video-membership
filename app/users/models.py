@@ -9,12 +9,12 @@ from . import validators, security
 
 settings = get_settings()
 
+
 class User(Model):
     __keyspace__ = settings.keyspace
     email = columns.Text(primary_key=True)
     user_id = columns.UUID(primary_key=True, default=uuid.uuid1)
     password = columns.Text()
-
 
     def set_password(self, pw, commit=False):
         pw_hash = security.generate_hash(pw)
@@ -33,7 +33,7 @@ class User(Model):
         q = User.objects.filter(email=email)
         if q.count() != 0:
             raise UserHasAccountException("Use already has an account.")
-        
+
         valid, msg, email = validators._validate_email(email)
 
         if not valid:
@@ -43,12 +43,13 @@ class User(Model):
         obj.set_password(password)
         obj.save()
         return obj
-    
+
     @staticmethod
     def check_exists(user_id):
         q = User.objects.filter(user_id=user_id).allow_filtering()
+        print(q.count(), '-----------q')
         return q.count() != 0
-    
+
     @staticmethod
     def by_user_id(user_id=None):
         if user_id is None:

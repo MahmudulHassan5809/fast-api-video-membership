@@ -13,16 +13,14 @@ from .users.views import router as user_router
 from .videos.views import router as video_router
 
 
-
-
-
 app = FastAPI()
 
 app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())
 
-from .handlers import * # noqa
+from .handlers import *  # noqa
 
 DB_SESSION = None
+
 
 @app.on_event("startup")
 def on_startup():
@@ -30,8 +28,6 @@ def on_startup():
     DB_SESSION = db.get_session()
     sync_table(User)
     sync_table(Video)
-
-
 
 
 app.include_router(user_router)
