@@ -3,7 +3,7 @@ from app.config import get_settings
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
 from app.users.exceptions import InvalidUserIDException
-
+from app.shortcuts import templates
 from app.users.models import User
 from app.videos.exceptions import InvalidYouTubeVideoURLException, VideoAlreadyAddedException
 from app.videos.extractors import extract_video_id
@@ -22,6 +22,13 @@ class Video(Model):
 
     def __str__(self):
         return self.__repr__()
+
+    def render(self):
+        basename = self.host_service  # youtube, vimeo
+        template_name = f"videos/renderers/{basename}.html"
+        context = {"host_id": self.host_id}
+        t = templates.get_template(template_name)
+        return t.render(context)
 
     def __repr__(self):
         return f"Video(title={self.title}, host_id={self.host_id}, host_service={self.host_service})"
