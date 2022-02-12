@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<div class='row'>
+
+    <div class='col-md-9 col-12'>
+
+
+
+<div class='ratio ratio-16x9' id='yt-video' data-video-id="{{ host_id }}" data-start-time='{{ start_time }}'></div>
+
+</div>
+
+
+<div class='col-md-3 col-12'>
+    
+    {% if obj.title %}<h5>{{ obj.title }}</h5>{% endif %}
+
+    
+</div>
+
+
+</div>
+
+{% endblock %}
+
+

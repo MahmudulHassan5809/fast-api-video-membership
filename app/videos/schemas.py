@@ -36,7 +36,6 @@ class VideoCreateSchema(BaseModel):
         if url is None:
             raise ValueError("A valid url is required.")
         user_id = values.get("user_id")
-        print(user_id, '-----------')
         video_obj = None
         extra_data = {}
         if title is not None:
@@ -59,9 +58,6 @@ class VideoCreateSchema(BaseModel):
         if not isinstance(video_obj, Video):
             raise ValueError(
                 "There's a problem with your account, please try again.")
-        # if title is not None:
-        #     video_obj.title = title
-        #     video_obj.save()
         return video_obj.as_data()
 
 

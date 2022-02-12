@@ -42,7 +42,6 @@ class Video(Model):
         if host_id is None:
             raise InvalidYouTubeVideoURLException("Invalid YouTube Video URL")
         user_exists = User.check_exists(user_id)
-        print(user_exists)
         if user_exists is None:
             raise InvalidUserIDException("Invalid user_id")
 
