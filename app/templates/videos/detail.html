@@ -18,7 +18,7 @@
     
     {% if obj.title %}<h5>{{ obj.title }}</h5>{% endif %}
 
-    {{ obj.render()|safe }}
+    <div><code>{{ obj.render() }}</code></div>
 </div>
 
 
@@ -39,7 +39,6 @@
         var timeSinceLastSaved = 0;
         var timeIntervalForSave = 5000;
         function onYouTubeIframeAPIReady() {
-            // console.log("hello world");
             player = new YT.Player('yt-video', {
                 height: '390',
                 width: '640',
@@ -113,7 +112,6 @@
         // console.log('saving...', data)
 
         // send POST data
-        // JSON -> JavaScript Object Notion
         var reqOptions = {
             method: "POST",
             headers: {
@@ -127,7 +125,6 @@
             // console.log("success:", data)
         })
         .catch(err => {
-            // fetch to an error catching endpoint
             // console.log('error: ', err)
         })
     }

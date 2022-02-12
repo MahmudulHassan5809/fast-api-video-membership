@@ -9,9 +9,10 @@ from app.users.backens import JWTCookieBackend
 from . import db
 from .users.models import User
 from .videos.models import Video
+from .watch_events.models import WatchEvent
 from .users.views import router as user_router
 from .videos.views import router as video_router
-
+from .watch_events.views import router as event_router
 
 app = FastAPI()
 
@@ -28,7 +29,9 @@ def on_startup():
     DB_SESSION = db.get_session()
     sync_table(User)
     sync_table(Video)
+    sync_table(WatchEvent)
 
 
 app.include_router(user_router)
 app.include_router(video_router)
+app.include_router(event_router)
