@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class='row'>
+    <div class='col-12 col-md-3'>
+        
+
+    </div>
+    <div class='col-12 col-md-9'>
+
+<h1>Create Playlist</h1>
+
+{% include 'partials/form_errors.html' %}
+
+
+<form method='POST'>
+    <div>
+        <label for='title'>Title</label>
+        <input class='form-control' type='text' name='title' id='title' placeholder='Your Video Title' value="{% if title %}{{ title }}{% endif %}" />
+    </div>
+
+
+    <button class='btn btn-primary mt-2' type='submit' >Add Playlist</button>
+    
+</form>
+
+</div>
+</div>
+{% endblock %}
