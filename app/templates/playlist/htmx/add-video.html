@@ -1,5 +1,5 @@
 <div class='my-2 border rounded p-3'>
-    {% include 'snippets/form_errors.html' %}
+    {% include 'partials/form_errors.html' %}
     
     <form method='POST' action='/playlists/{{db_id}}/add-video' hx-post='/playlists/{{db_id}}/add-video'>
         <div>
