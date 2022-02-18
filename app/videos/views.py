@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, Request
+from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse
 from app.videos.models import Video
 from app.watch_events.models import WatchEvent
@@ -14,15 +14,22 @@ router = APIRouter(
 )
 
 
+def is_htmx(request: Request):
+    return request.headers.get('hx-request') == 'true'
+
+
 @router.get("/create", response_class=HTMLResponse)
 @login_required
-def video_create_view(request: Request):
+def video_create_view(request: Request, is_htmx=Depends(is_htmx)):
+    if is_htmx:
+        return render(request, "videos/htmx/create.html", {})
     return render(request, "videos/create.html", {})
 
 
 @router.post("/create", response_class=HTMLResponse)
 @login_required
-def video_create_post_view(request: Request, title: str = Form(...), url: str = Form(...)):
+def video_create_post_view(
+        request: Request, title: str = Form(...), url: str = Form(...), is_htmx=Depends(is_htmx)):
     raw_data = {
         "title": title,
         "url": url,
@@ -37,6 +44,15 @@ def video_create_post_view(request: Request, title: str = Form(...), url: str = 
         "title": title,
         "url": url,
     }
+
+    if is_htmx:
+        if len(errors) > 0:
+            return render(request, "videos/htmx/create.html", context)
+        context = {
+            "path":  data.get('path') or "/videos/create",
+            "title": data.get('title')
+        }
+        return render(request, "videos/htmx/link.html", context)
     if len(errors) > 0:
         return render(request, "videos/create.html", context, status_code=400)
 
