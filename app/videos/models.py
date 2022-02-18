@@ -41,6 +41,16 @@ class Video(Model):
     def path(self):
         return f"/videos/{self.host_id}"
 
+    def update_video_url(self, url, save=True):
+        host_id = extract_video_id(url)
+        if not host_id:
+            return None
+        self.url = url
+        self.host_id = host_id
+        if save:
+            self.save()
+        return url
+
     @staticmethod
     def get_or_create(url, user_id=None, **kwargs):
         host_id = extract_video_id(url)

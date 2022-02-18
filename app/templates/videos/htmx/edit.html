@@ -1,0 +1,28 @@
+<div>
+    {% include 'partials/form_errors.html' %}
+    
+    <form method='POST' action='/videos/{{ object.host_id }}/edit' hx-post='/videos/{{ object.host_id }}/hx-edit'>
+        <div>
+            <label for='title'>Title</label>
+            <input class='form-control' type='text' name='title' id='title' 
+            required='required'
+            placeholder='Your Video Title' value="{% if object.title %}{{ object.title }}{% endif %}" />
+        </div>
+
+        <div>
+            <label for='url'>YouTube Link</label>
+            <input  class='form-control' type='text' name='url' id='url' 
+            required='required'
+            placeholder='https://www.youtube.com/watch?v=GlDr6aKBtFg' value="{% if object.url %}{{ object.url }}{% endif %}" />
+        </div>
+
+        <div>
+            <label for='delete'>
+                <input  type='checkbox' name='delete' id='delete' /> Delete?
+            </label>
+        </div>
+        
+        <button class='btn btn-primary mt-2' type='submit' >Save</button>
+        
+    </form>
+</div>
