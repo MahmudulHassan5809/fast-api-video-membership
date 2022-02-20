@@ -97,8 +97,19 @@ def register(request: Request,
 @router.get('/profile/', response_class=HTMLResponse)
 @login_required
 def profile(request: Request):
-    print(request.user.is_authenticated, '---------')
     context = {
         "title": 'Profile'
     }
     return render(request, "account/profile.html", context, status_code=200)
+
+
+@router.get("/logout", response_class=HTMLResponse)
+def logout_get_view(request: Request):
+    if not request.user.is_authenticated:
+        return redirect('/users/login')
+    return render(request, "auth/logout.html", {})
+
+
+@router.post("/logout", response_class=HTMLResponse)
+def logout_post_view(request: Request):
+    return redirect("/users/login", remove_session=True)
