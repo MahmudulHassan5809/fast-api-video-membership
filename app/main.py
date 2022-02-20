@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from starlette.middleware.authentication import AuthenticationMiddleware
@@ -15,6 +16,11 @@ from .users.views import router as user_router
 from .videos.views import router as video_router
 from .watch_events.views import router as event_router
 from .playlists.views import router as platlist_router
+from .indexing.client import (
+    update_index,
+    search_index
+)
+
 
 app = FastAPI()
 
@@ -39,3 +45,26 @@ app.include_router(user_router)
 app.include_router(video_router)
 app.include_router(event_router)
 app.include_router(platlist_router)
+
+
+@app.post('/update-index', response_class=HTMLResponse)
+def htmx_update_index_view(request: Request):
+    count = update_index()
+    return HTMLResponse(f"({count}) Refreshed")
+
+
+@app.get("/search", response_class=HTMLResponse)
+def search_detail_view(request: Request, q: Optional[str] = None):
+    query = None
+    context = {}
+    if q is not None:
+        query = q
+        results = search_index(query)
+        hits = results.get('hits') or []
+        num_hits = results.get('nbHits')
+        context = {
+            "query": query,
+            "hits": hits,
+            "num_hits": num_hits
+        }
+    return render(request, "search/detail.html", context)
